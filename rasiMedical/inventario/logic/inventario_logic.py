@@ -22,7 +22,6 @@ def update_medicamento(epk, new):
     act = get_medicamento(epk)
     act.nombre = new["nombre"]
     act.estado = new["estado"]
-    act.cantidad = new["cantidad"]
     act.descripcion = new["descripcion"]
     act.medico = new["medico"]
     act.fabricante = new["fabricante"]
@@ -32,7 +31,7 @@ def update_medicamento(epk, new):
     return act
     
 def create_medicamento(new):
-    medicamento = Medicamento(nombre = new["nombre"], estado = new["estado"], cantidad = new["cantidad"], descripcion = new["descripcion"], medico = new["medico"], fabricante = new["fabricante"], concentracion = new["concentracion"], administracion = new["administracion"])
+    medicamento = Medicamento(nombre = new["nombre"], estado = new["estado"], descripcion = new["descripcion"], medico = new["medico"], fabricante = new["fabricante"], concentracion = new["concentracion"], administracion = new["administracion"])
     medicamento.save()
     return medicamento
 
