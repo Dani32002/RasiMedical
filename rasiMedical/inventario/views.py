@@ -17,3 +17,18 @@ def dispositivo_view(request, pk):
         elemento_dto = el.get_dispositivo(pk)
         elemento = serializers.serialize('json', [elemento_dto,])
         return HttpResponse(elemento, 'application/json')
+    
+@csrf_exempt
+def medicamentos_view(request):
+    if request.method == 'GET':
+        elementos_dto = el.get_medicamentos()
+        elementos = serializers.serialize('json', elementos_dto)    
+        return HttpResponse(elementos, 'application/json')
+
+@csrf_exempt
+def medicamento_view(request, pk):
+    if request.method == 'GET':
+        elemento_dto = el.get_medicamento(pk)
+        elemento = serializers.serialize('json', [elemento_dto,])
+        return HttpResponse(elemento, 'application/json')
+    
