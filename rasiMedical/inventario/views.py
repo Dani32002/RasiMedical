@@ -89,7 +89,7 @@ def anadirMedicoMedicamento(request, id, id2):
         medicamento = el.get_medicamento(id)
         medico = ul.get_medico(id2)
         medicamento.medico = medico
-        el.update_medicamento(id, medicamento)
+        el.update_medicamentoMedico(medicamento)
         elementoDto = serializers.serialize('json',[medicamento])
         return HttpResponse(elementoDto, 'application/json')
     
@@ -99,7 +99,7 @@ def anadirMedicoDispositivo(request, id, id2):
         dispositivo = el.get_dispositivo(id)
         medico = ul.get_medico(id2)
         dispositivo.medico = medico
-        el.update_dispositivo(id, dispositivo)
+        el.update_dispositivoMedico(dispositivo)
         elementoDto = serializers.serialize('json',[dispositivo])
         return HttpResponse(elementoDto, 'application/json')
     
@@ -109,6 +109,6 @@ def anadirMedicoInsumo(request, id, id2):
         insumo = el.get_insumo(id)
         medico = ul.get_medico(id2)
         insumo.medico = medico
-        el.update_insumo(id, insumo)
+        el.update_insumoMedico(insumo)
         elementoDto = serializers.serialize('json',[insumo])
         return HttpResponse(elementoDto, 'application/json')

@@ -18,6 +18,10 @@ def update_dispositivo(epk, new):
     act.save()
     return act
 
+def update_dispositivoMedico(new):
+    new.save()
+    return new
+
 def delete_dispositivo(pk):
     dispositivo = get_dispositivo(pk)
     dispositivo.delete()
@@ -51,6 +55,10 @@ def update_medicamento(epk, new):
     act.administracion = new["administracion"]
     act.save()
     return act
+
+def update_medicamentoMedico(new):
+    new.save()
+    return new
     
 def create_medicamento(new):
     medicamento = Medicamento(nombre = new["nombre"], estado = new["estado"], descripcion = new["descripcion"], medico = new["medico"], fabricante = new["fabricante"], concentracion = new["concentracion"], administracion = new["administracion"])
@@ -80,6 +88,10 @@ def update_insumo(epk, new):
     act.unidad = new["unidad"]
     act.save()
     return act
+
+def update_insumoMedico(new):
+    new.save()
+    return new
 
 def create_insumo(new):
     insumo = Insumo(nombre = new["nombre"], estado = new["estado"], descripcion = new["descripcion"], proposito = new["proposito"], unidad = new["unidad"])
