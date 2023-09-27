@@ -10,13 +10,24 @@ def dispositivos_view(request):
         elementos_dto = el.get_dipositivos()
         elementos = serializers.serialize('json', elementos_dto)
         return HttpResponse(elementos, 'application/json')
-
-@csrf_exempt
-def dispositivo_view(request, pk):
-    if request.method == 'GET':
-        elemento_dto = el.get_dispositivo(pk)
+    elif request.method == 'POST':
+        elemento_dto = el.create_dispositivo(json.loads(request.body))
         elemento = serializers.serialize('json', [elemento_dto,])
         return HttpResponse(elemento, 'application/json')
+
+@csrf_exempt
+def dispositivo_view(request, id):
+    if request.method == 'GET':
+        elemento_dto = el.get_dispositivo(id)
+        elemento = serializers.serialize('json', [elemento_dto,])
+        return HttpResponse(elemento, 'application/json')
+    elif request.method == 'PUT':
+        elemento_dto = el.update_dispositivo(id, json.loads(request.body))
+        elemento = serializers.serialize('json', [elemento_dto,])
+        return HttpResponse(elemento, 'application/json')
+    elif request.method == 'DELETE':
+        el.delete_dispositivo(id)
+        return HttpResponse("Borrado exitoso con id: " + str(id))
     
 @csrf_exempt
 def medicamentos_view(request):
