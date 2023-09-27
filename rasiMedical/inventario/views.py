@@ -56,4 +56,28 @@ def medicamento_view(request, id):
     elif request.method == 'DELETE':
         el.delete_medicamento(id)
         return HttpResponse("Borrado exitoso con id: " + str(id))
-    
+
+@csrf_exempt
+def insumos_view(request):
+    if request.method == 'GET':
+        elementos_dto = el.get_insumos()
+        elementos = serializers.serialize('json', elementos_dto)
+        return HttpResponse(elementos, 'application/json')
+    elif request.method == 'POST':
+        elemento_dto = el.create_insumo(json.loads(request.body))
+        elemento = serializers.serialize('json', [elemento_dto,])
+        return HttpResponse(elemento, 'application/json')
+
+@csrf_exempt
+def insumo_view(request, id):
+    if request.method == 'GET':
+        elemento_dto = el.get_insumo(id)
+        elemento = serializers.serialize('json', [elemento_dto,])
+        return HttpResponse(elemento, 'application/json')
+    elif request.method == 'PUT':
+        elemento_dto = el.update_insumo(id, json.loads(request.body))
+        elemento = serializers.serialize('json', [elemento_dto,])
+        return HttpResponse(elemento, 'application/json')
+    elif request.method == 'DELETE':
+        el.delete_insumo(id)
+        return HttpResponse("Borrado exitoso con id: " + str(id))

@@ -1,5 +1,6 @@
 from ..models import Dispositivo
 from ..models import Medicamento
+from ..models import Insumo
 
 # CRUD DISPOSITIVOS
 
@@ -59,4 +60,32 @@ def create_medicamento(new):
 def delete_medicamento(pk):
     medicamento = get_medicamento(pk)
     medicamento.delete()
-    
+
+# CRUD INSUMOS
+
+def get_insumos():
+    elementos = Insumo.objects.all()
+    return elementos
+
+def get_insumo(epk):    
+    elemento = Insumo.objects.get(pk=epk)
+    return elemento
+
+def update_insumo(epk, new):
+    act = get_insumo(epk)
+    act.nombre = new["nombre"]
+    act.estado = new["estado"]
+    act.descripcion = new["descripcion"]
+    act.proposito = new["proposito"]
+    act.unidad = new["unidad"]
+    act.save()
+    return act
+
+def create_insumo(new):
+    insumo = Insumo(nombre = new["nombre"], estado = new["estado"], descripcion = new["descripcion"], proposito = new["proposito"], unidad = new["unidad"])
+    insumo.save()
+    return insumo
+
+def delete_insumo(pk):
+    insumo = get_insumo(pk)
+    insumo.delete()
