@@ -22,6 +22,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', views.home),
     path('usuario/', include('usuario.urls')),
-    path('inventario/', include('inventario.urls'))
-
+    path('inventario/', include('inventario.urls')),
+    path('asignar/', views.asignar),
+    path('tipo/', views.mostrarTipo), # type: ignore
+    path('asociar-insumo/', views.asociarInsumo),
+    path('asociar-medicamento/', views.asociarMedicamento),
+    path('asociar-dispositivo/', views.asociarDispositivo),
+    path('administrativo/', include('administrativo.urls'))
 ]

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignar Recurso a Medico</title>
+</head>
+<body>
+    <div style="display:flex; width: 100%; margin: auto; justify-content: center;">
+        <form action="/tipo/" method="post">
+            <p>Tipo de Elemento: </p>
+            <input type="radio" id="dispositivo" name="elemento" value="Dispositivo">
+            <label for="dispositivo">Dispositivo</label><br>
+            <input type="radio" id="medicamento" name="elemento" value="Medicamento">
+            <label for="medicamento">Medicamento</label><br>
+            <input type="radio" id="insumo" name="elemento" value="Insumo">
+            <label for="insumo">Insumo</label><br><br>
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
+</body>
+</html>

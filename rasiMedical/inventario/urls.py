@@ -12,5 +12,4 @@ urlpatterns = [
     path('medicamento/<int:id>/medico/<int:id2>', views.anadirMedicoMedicamento, name = 'nadirMedicoMedicamento'), # type: ignore
     path('dispositivo/<int:id>/medico/<int:id2>', views.anadirMedicoDispositivo, name = 'anadirMedicoDispositivo'), # type: ignore
     path('insumo/<int:id>/medico/<int:id2>', views.anadirMedicoInsumo, name = 'anadirMedicoInsumo'), # type: ignore
-    
 ]
