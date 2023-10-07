@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.core import serializers
 import json
 from django.views.decorators.csrf import csrf_exempt
+from datetime import date
 
 # Create your views here.
 @csrf_exempt
@@ -30,3 +31,10 @@ def factura_view(request, id):
     elif request.method == 'DELETE':
         fl.delete_factura(id)
         return HttpResponse("Borrado exitoso con id: " + str(id))
+
+def emitirFactura(request, id):
+    factura_dto = fl.get_factura(id)
+    factura_dto.fechaEmision = date.today()
+    factura_dto.save()
+    factura = serializers.serialize('json', [factura_dto,])
+    return HttpResponse(factura, 'application/json')
