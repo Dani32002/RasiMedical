@@ -1,4 +1,5 @@
 from ..models import Medico
+from ..models import Paciente
 
 def get_medicos():
     meds = Medico.objects.all()
@@ -27,3 +28,36 @@ def create_medico(med):
 def delete_medico(med_pk):
     med = get_medico(med_pk)
     med.delete()
+    
+def get_pacientes():
+    pacientes = Paciente.objects.all()
+    return pacientes
+
+def get_paciente(pac_pk):
+    paciente = Paciente.objects.get(pk=pac_pk)
+    return paciente
+
+def update_paciente(pac_pk, new_pac):
+    paciente = get_paciente(pac_pk)
+    paciente.nombre = new_pac["nombre"]
+    paciente.correo = new_pac["correo"]
+    paciente.clave = new_pac["clave"]
+    paciente.identificacion = new_pac["identificacion"]
+    paciente.numeroDeSeguro = new_pac["numeroDeSeguro"]
+    paciente.save()
+    return paciente
+
+def create_paciente(pac):
+    paciente = Paciente(
+        nombre=pac["nombre"], 
+        correo=pac["correo"], 
+        clave=pac["clave"], 
+        identificacion=pac["identificacion"], 
+        numeroDeSeguro=pac["numeroDeSeguro"]
+    )
+    paciente.save()
+    return paciente
+
+def delete_paciente(pac_pk):
+    paciente = get_paciente(pac_pk)
+    paciente.delete()
