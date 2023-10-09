@@ -35,3 +35,30 @@ def medico_view(request, pk):
         return HttpResponse("Borrado exitoso con id: " + str(pk))
 
 
+@csrf_exempt
+def pacientes_view(request):
+    if request.method == 'GET':
+        pacientes = pl.get_pacientes()
+        pacientesDTO = serializers.serialize('json', pacientes)
+        return HttpResponse(pacientesDTO, content_type='application/json')
+    
+    if request.method == 'POST':
+        pac_dto = pl.create_paciente(json.loads(request.body))
+        paciente = serializers.serialize('json', [pac_dto,])
+        return HttpResponse(paciente, content_type='application/json')    
+
+@csrf_exempt
+def paciente_view(request, pk):
+    if request.method == 'GET':
+        paciente = pl.get_paciente(pk)
+        pacienteDTO = serializers.serialize('json', [paciente])
+        return HttpResponse(pacienteDTO, content_type='application/json')
+    
+    if request.method == 'PUT':
+        pac_dto = pl.update_paciente(pk, json.loads(request.body))
+        paciente = serializers.serialize('json', [pac_dto,])
+        return HttpResponse(paciente, content_type='application/json')
+    
+    if request.method == 'DELETE':
+        pl.delete_paciente(pk)
+        return HttpResponse("Borrado exitoso con id: " + str(pk))
