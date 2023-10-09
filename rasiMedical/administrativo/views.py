@@ -32,9 +32,39 @@ def factura_view(request, id):
         fl.delete_factura(id)
         return HttpResponse("Borrado exitoso con id: " + str(id))
 
+@csrf_exempt
 def emitirFactura(request, id):
     factura_dto = fl.get_factura(id)
     factura_dto.fechaEmision = date.today()
     factura_dto.save()
     factura = serializers.serialize('json', [factura_dto,])
     return HttpResponse(factura, 'application/json')
+    
+@csrf_exempt
+def EPSs_view(request):
+    if request.method == 'GET':
+        epss = fl.get_EPSs()
+        epssDTO = serializers.serialize('json', epss)
+        return HttpResponse(epss, content_type = 'application/json')
+    
+    if request.method == 'POST':
+        epsDTO = fl.create_EPS(json.loads(request.body))
+        eps = serializers.serialize('json', [epsDTO,])
+        return HttpResponse(eps, 'application/json')
+    
+
+@csrf_exempt
+def EPS_view(request, pk):
+    if request.method == 'GET':
+        eps = fl.get_EPS(pk)
+        epsDTO = serializers.serialize('json', [eps])
+        return HttpResponse(epsDTO, content_type = 'application/json')
+    
+    if request.method == 'PUT':
+        epsDTO = fl.update_EPS(pk, json.loads(request.body))
+        eps = serializers.serialize('json', [epsDTO,])
+        return HttpResponse(eps, 'application/json')
+    
+    if request.method == 'DELETE':
+        fl.delete_EPS(pk)
+        return HttpResponse("Borrado exitoso con id: " + str(pk))
