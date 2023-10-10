@@ -1,4 +1,5 @@
 from django.db import models
+from administrativo.models import EPS
 
 # Definición de clase abstracta del profesional.
 class Usuario(models.Model):
@@ -24,6 +25,7 @@ class Medico(Usuario):
 #Definición del paciente
 class Paciente(Usuario):
     numeroDeSeguro = models.CharField(max_length=50)
+    eps = models.ForeignKey(EPS,  on_delete=models.SET_NULL, null = True)
     def __str__(self):
         return "Nombre: " + self.nombre + ", Correo: " + self.correo + ", Clave: " + self.clave + ", Identificacion: " + self.identificacion + ", Numero de Seguro: " + self.numeroDeSeguro +  " "
 

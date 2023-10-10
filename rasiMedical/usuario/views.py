@@ -1,6 +1,7 @@
 import json
 from django.http import HttpResponse
 from .logic import usuario_logic as pl
+from administrativo.logic import administrativo_logic as al
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
@@ -48,17 +49,27 @@ def pacientes_view(request):
         return HttpResponse(paciente, content_type='application/json')    
 
 @csrf_exempt
-def paciente_view(request, pk):
+def paciente_view(request, id):
     if request.method == 'GET':
-        paciente = pl.get_paciente(pk)
+        paciente = pl.get_paciente(id)
         pacienteDTO = serializers.serialize('json', [paciente])
         return HttpResponse(pacienteDTO, content_type='application/json')
     
     if request.method == 'PUT':
-        pac_dto = pl.update_paciente(pk, json.loads(request.body))
+        pac_dto = pl.update_paciente(id, json.loads(request.body))
         paciente = serializers.serialize('json', [pac_dto,])
         return HttpResponse(paciente, content_type='application/json')
     
     if request.method == 'DELETE':
-        pl.delete_paciente(pk)
-        return HttpResponse("Borrado exitoso con id: " + str(pk))
+        pl.delete_paciente(id)
+        return HttpResponse("Borrado exitoso con id: " + str(id))
+    
+@csrf_exempt
+def anadirEpsPaciente(request, id, id2):
+    if request.method == 'POST':
+        paciente = pl.get_paciente(id)
+        eps = al.get_EPS(id2)
+        paciente.eps = eps
+        pl.update_pacienteEps(paciente)
+        elementoDto = serializers.serialize('json',[paciente])
+        return HttpResponse(elementoDto, 'application/json')

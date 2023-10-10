@@ -1,8 +1,10 @@
 from ..models import Factura
 from ..models import EPS
+from usuario.logic import usuario_logic as ul
 
 def create_factura(new):
-    factura = Factura(numero = new["numero"], fechaEmision = new["fechaEmision"], fechaPago = new["fechaPago"], total = new["total"])
+    paciente = ul.get_paciente(new["paciente"])
+    factura = Factura(numero = new["numero"], fechaEmision = new["fechaEmision"], paciente = paciente, fechaPago = new["fechaPago"], total = new["total"])
     factura.save()
     return factura
 
@@ -10,6 +12,7 @@ def update_factura(epk, new):
     act = get_factura(epk)
     act.numero = new["numero"]
     act.fechaEmision = new["fechaEmision"]
+    act.paciente = new["paciente"]
     act.fechaPago = new["fechaPago"]
     act.total = new["total"]
     act.save()
@@ -29,7 +32,7 @@ def get_factura(epk):
 
 
 def create_EPS(new):
-    eps = EPS(nombre = new["nombre"], nit = new["nit"])
+    eps = EPS(nombre = new["nombre"], nit = new["nit"], correo = new["correo"])
     eps.save()
     return eps
 
@@ -45,9 +48,14 @@ def update_EPS(epk, new):
     act = get_EPS(epk)
     act.nombre = new["nombre"]
     act.nit = new["nit"]
+    act.correo = new["correo"]
     act.save()
     return act
 
 def delete_EPS(pk):
     eps = get_EPS(pk)
     eps.delete()
+
+def update_facturaPaciente(new):
+    new.save()
+    return new

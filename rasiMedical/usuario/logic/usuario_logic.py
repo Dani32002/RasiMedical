@@ -44,8 +44,13 @@ def update_paciente(pac_pk, new_pac):
     paciente.clave = new_pac["clave"]
     paciente.identificacion = new_pac["identificacion"]
     paciente.numeroDeSeguro = new_pac["numeroDeSeguro"]
+    paciente.eps = new_pac["eps"]
     paciente.save()
     return paciente
+
+def update_pacienteEps(new):
+    new.save()
+    return new
 
 def create_paciente(pac):
     paciente = Paciente(
@@ -53,7 +58,8 @@ def create_paciente(pac):
         correo=pac["correo"], 
         clave=pac["clave"], 
         identificacion=pac["identificacion"], 
-        numeroDeSeguro=pac["numeroDeSeguro"]
+        numeroDeSeguro=pac["numeroDeSeguro"],
+        eps = pac["eps"]
     )
     paciente.save()
     return paciente
