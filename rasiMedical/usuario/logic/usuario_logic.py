@@ -1,5 +1,6 @@
 from ..models import Medico
 from ..models import Paciente
+from ..models import Administrador
 
 def get_medicos():
     meds = Medico.objects.all()
@@ -67,3 +68,30 @@ def create_paciente(pac):
 def delete_paciente(pac_pk):
     paciente = get_paciente(pac_pk)
     paciente.delete()
+    
+def get_admins():
+    admins = Administrador.objects.all()
+    return admins
+
+def get_admin(admin_pk):
+    admin = Administrador.objects.get(pk=admin_pk)
+    return admin
+
+def update_admin(admin_pk, new_admin):
+    admin = get_admin(admin_pk)
+    admin.nombre = new_admin["nombre"]
+    admin.correo = new_admin["correo"]
+    admin.clave = new_admin["clave"]
+    admin.identificacion = new_admin["identificacion"]
+    admin.cargo = new_admin["cargo"]
+    admin.save()
+    return admin
+
+def create_admin(admin):
+    administrador = Administrador(nombre = admin["nombre"], correo = admin["correo"], clave = admin["clave"], identificacion = admin["identificacion"], cargo = admin["cargo"])
+    administrador.save()
+    return administrador
+
+def delete_admin(admin_pk):
+    admin = get_admin(admin_pk)
+    admin.delete()

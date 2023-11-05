@@ -18,7 +18,6 @@ def medicos_view(request):
         medico = serializers.serialize('json', [med_dto,])
         return HttpResponse(medico, 'application/json')    
 
-
 @csrf_exempt
 def medico_view(request, pk):
     if request.method == 'GET':
@@ -34,7 +33,6 @@ def medico_view(request, pk):
     if request.method == 'DELETE':
         pl.delete_medico(pk)
         return HttpResponse("Borrado exitoso con id: " + str(pk))
-
 
 @csrf_exempt
 def pacientes_view(request):
@@ -73,3 +71,28 @@ def anadirEpsPaciente(request, id, id2):
         pl.update_pacienteEps(paciente)
         elementoDto = serializers.serialize('json',[paciente])
         return HttpResponse(elementoDto, 'application/json')
+    
+@csrf_exempt
+def admins_view(request):
+    if request.method == 'GET':
+        admins = pl.get_admins()
+        adminsDTO = serializers.serialize('json', admins)
+        return HttpResponse(admins, content_type='application/json')
+    if request.method == 'POST':
+        admin_dto = pl.create_admin(json.loads(request.body))
+        admin = serializers.serialize('json', [admin_dto,])
+        return HttpResponse(admin, 'application/json')
+
+@csrf_exempt
+def admin_view(request, pk):
+    if request.method == 'GET':
+        admin = pl.get_admin(pk)
+        adminDTO = serializers.serialize('json', [admin])
+        return HttpResponse(adminDTO, content_type='application/json')
+    if request.method == 'PUT':
+        admin_dto = pl.update_admin(pk, json.loads(request.body))
+        admin = serializers.serialize('json', [admin_dto,])
+        return HttpResponse(admin, 'application/json')
+    if request.method == 'DELETE':
+        pl.delete_admin(pk)
+        return HttpResponse("Borrado exitoso con id: " + str(pk))

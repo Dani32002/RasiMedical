@@ -44,3 +44,10 @@ class Farmaceutico(Usuario):
     
     def __str__(self):
         return "Nombre: " + self.nombre + ", Correo: " + self.correo + ", Clave: " + self.clave + ", Identificacion: " + self.identificacion + ", Area: " + self.area + " "
+    
+class Administrador(Usuario):
+    cargo = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return "Nombre: " + self.nombre + ", Correo: " + self.correo + ", Clave: " + self.clave + ", Identificacion: " + self.identificacion + ", Cargo: " + self.cargo + " "
+    
