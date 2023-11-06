@@ -77,7 +77,7 @@ def admins_view(request):
     if request.method == 'GET':
         admins = pl.get_admins()
         adminsDTO = serializers.serialize('json', admins)
-        return HttpResponse(admins, content_type='application/json')
+        return HttpResponse(adminsDTO, content_type='application/json')
     if request.method == 'POST':
         admin_dto = pl.create_admin(json.loads(request.body))
         admin = serializers.serialize('json', [admin_dto,])

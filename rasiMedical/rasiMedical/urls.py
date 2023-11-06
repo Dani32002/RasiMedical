@@ -28,5 +28,6 @@ urlpatterns = [
     path('asociar-insumo/', views.asociarInsumo),
     path('asociar-medicamento/', views.asociarMedicamento),
     path('asociar-dispositivo/', views.asociarDispositivo),
-    path('administrativo/', include('administrativo.urls'))
+    path('administrativo/', include('administrativo.urls')),
+    path('agenda/', include('agenda.urls'))
 ]
