@@ -1,6 +1,7 @@
 import json
 from django.http import HttpResponse
 from .logic import usuario_logic as pl
+from agenda.logic import agenda_logic as al2
 from administrativo.logic import administrativo_logic as al
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
@@ -33,6 +34,15 @@ def medico_view(request, pk):
     if request.method == 'DELETE':
         pl.delete_medico(pk)
         return HttpResponse("Borrado exitoso con id: " + str(pk))
+
+@csrf_exempt
+def estadisticas(request):
+    if request.method == 'GET':
+        pacientes = pl.get_pacientes()
+        citas = al2.get_citas()
+        return HttpResponse("Pacientes: " + str(len(pacientes)) + ", Citas Completadas: " + str(len(citas)))
+
+
 
 @csrf_exempt
 def pacientes_view(request):

@@ -5,7 +5,7 @@ from django.db import models
 class Cita(models.Model):
     fecha = models.DateField()
     completada = models.BooleanField()
-    medicoCita = models.ForeignKey('usuario.Medico',  on_delete=models.SET_NULL)
+    medicoCita = models.ForeignKey('usuario.Medico',  on_delete=models.CASCADE)
     paciente = models.ForeignKey('usuario.Paciente',  on_delete=models.CASCADE)
-    factura = models.ForeignKey('administrativo.Factura',  on_delete=models.CASCADE, null= True)
+    factura = models.ForeignKey('administrativo.Factura', null= True,  on_delete=models.CASCADE)
 

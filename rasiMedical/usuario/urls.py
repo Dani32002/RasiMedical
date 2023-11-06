@@ -10,4 +10,5 @@ urlpatterns = [
     path('paciente/<int:id>/eps/<int:id2>', views.anadirEpsPaciente, name='paciente_view'), # type: ignore
     path('admin/', views.admins_view, name='admins_view'), # type: ignore
     path('admin/<int:pk>', views.admin_view, name='admin_view'), # type: ignore
+    path('admin/estadisticas', views.estadisticas, name='admin_view')  # type: ignore
 ]
