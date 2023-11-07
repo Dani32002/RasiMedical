@@ -1,10 +1,12 @@
 import json
 from django.http import HttpResponse
+from django.template import loader
 from .logic import usuario_logic as pl
 from agenda.logic import agenda_logic as al2
 from administrativo.logic import administrativo_logic as al
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
+from agenda.models import Cita
 # Create your views here.
 
 @csrf_exempt
@@ -40,9 +42,16 @@ def estadisticas(request):
     if request.method == 'GET':
         pacientes = pl.get_pacientes()
         citas = al2.get_citas()
-        return HttpResponse("Pacientes: " + str(len(pacientes)) + ", Citas Completadas: " + str(len(citas)))
-
-
+        i = 0
+        for j in citas:
+            if (j.completada):
+                i += 1
+        template = loader.get_template('estadisticas.html')
+        context = {
+            "pacientes": str(len(pacientes)),
+            "completadas": str(i)
+        }
+        return context
 
 @csrf_exempt
 def pacientes_view(request):

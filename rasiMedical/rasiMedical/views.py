@@ -4,10 +4,11 @@ from inventario.logic import inventario_logic
 from django.views.decorators.csrf import csrf_exempt
 from django.template import loader
 from usuario.logic import usuario_logic
+from usuario import views as uv
 from inventario import views
 
 def home(request):
-    return HttpResponse("Hello world! Django views")
+    return render(request, 'home.html')
 
 def asignar(request):
     return render(request, 'asignar.html')
@@ -57,3 +58,10 @@ def asociarMedicamento(request):
 def asociarDispositivo(request):
     views.anadirMedicoDispositivo(request, request.POST["dispositivo"], request.POST["medico"])
     return render(request, 'asignar.html')
+
+
+@csrf_exempt
+def estadisticas(request):
+    template = loader.get_template('estadisticas.html')
+    context = uv.estadisticas(request)
+    return HttpResponse(template.render(context, request))

@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'inventario',
     'usuario',
     'administrativo',
-    'agenda'
+    'agenda',
+    'bootstrap5'
 ]
 
 MIDDLEWARE = [
@@ -58,7 +59,7 @@ ROOT_URLCONF = 'rasiMedical.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
