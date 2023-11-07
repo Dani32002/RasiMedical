@@ -30,5 +30,7 @@ urlpatterns = [
     path('asociar-dispositivo/', views.asociarDispositivo),
     path('administrativo/', include('administrativo.urls')),
     path('agenda/', include('agenda.urls')),
-    path('estadisticas/', views.estadisticas) # type: ignore
+    path('estadisticas/', views.estadisticas), # type: ignore
+    path(r'', include('django.contrib.auth.urls')),
+    path(r'', include('social_django.urls')),
 ]

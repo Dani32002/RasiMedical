@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'usuario',
     'administrativo',
     'agenda',
-    'bootstrap5'
+    'bootstrap5',
+    'social_django'
 ]
 
 MIDDLEWARE = [
@@ -139,3 +140,25 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'escape0466@gmail.com'
 EMAIL_HOST_PASSWORD = 'xmmevdpcxqwjcgrq'
+
+# Cosas para Auth0
+LOGIN_URL = "/login/auth0"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "https://rasi-medical.us.auth0.com/v2/logout?returnTo=http%3A%2F%2F35.190.69.223:80"
+
+SOCIAL_AUTH_TRAILING_SLASH = False  # Remove end slash from routes
+SOCIAL_AUTH_AUTH0_DOMAIN = 'rasi-medical.us.auth0.com'
+SOCIAL_AUTH_AUTH0_KEY = 'swwMvm91TD3tbOhQ86kHy430P2jYmKes'
+SOCIAL_AUTH_AUTH0_SECRET = 'C_PChBMTDvTo8yQwZSTipKn5bRyv3551w89tA8fKiOH81PMqmndVPQ8sNloNJlxL'
+
+SOCIAL_AUTH_AUTH0_SCOPE = [
+    'openid',
+    'profile',
+    'email',
+    'role',
+]
+
+AUTHENTICATION_BACKENDS = {
+    'monitoring.auth0backend.Auth0',
+    'django.contrib.auth.backends.ModelBackend',
+}
