@@ -12,7 +12,7 @@ def update_factura(epk, new):
     act = get_factura(epk)
     act.numero = new["numero"]
     act.fechaEmision = new["fechaEmision"]
-    act.paciente = new["paciente"]
+    act.paciente = ul.get_paciente(new["paciente"])
     act.fechaPago = new["fechaPago"]
     act.total = new["total"]
     act.save()
