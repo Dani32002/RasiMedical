@@ -247,10 +247,10 @@ def nueva_historia(request, pk):
     if request.method == 'POST' and role == "Medico":
         email = getEmail(request)
         usuario = usuarioEmail(request, email)
-        ent = request.POST
+        ent = json.loads(request.POST)
         ent["paciente"] = pk
         ent["autor"] = usuario.id # type: ignore
-        hl.create_entradaClinica(json.loads(ent))
+        hl.create_entradaClinica(ent)
         return HttpResponse("ok")
     return HttpResponse("Error")
 
