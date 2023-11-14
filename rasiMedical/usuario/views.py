@@ -207,17 +207,17 @@ def pacientes_historias(request, pk):
         if role == "Medico":
             usuario = usuarioEmail(request, email)
             for historia in historias:
-                if usuario in historia.permitidosMedico:
+                if usuario in historia.permitidosMedico.all():
                     historias2.append(historia)
         elif role == "Farmaceutico":
             usuario = farmaceuticoEmail(request, email)
             for historia in historias:
-                if usuario in historia.permitidosFarmaceutico:
+                if usuario in historia.permitidosFarmaceutico.all():
                     historias2.append(historia)
         else:
             usuario = enfermeraEmail(request, email)
             for historia in historias:
-                if usuario in historia.permitidosEnfermera:
+                if usuario in historia.permitidosEnfermera.all():
                     historias2.append(historia)
         
         template = loader.get_template('entradasClinicas.html')
