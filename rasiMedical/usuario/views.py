@@ -190,6 +190,10 @@ def enfermeraEmail(request, email):
 @csrf_exempt
 def farmaceuticoEmail(request, email):
     return pl.get_farmaceuticaEmail(email)
+
+@csrf_exempt
+def crear(request, pk):
+    return render(request, 'nuevaHistoria.html')
     
 @login_required
 def pacientes_historias(request, pk):
