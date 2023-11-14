@@ -247,7 +247,7 @@ def nueva_historia(request, pk):
     if request.method == 'POST' and role == "Medico":
         email = getEmail(request)
         usuario = usuarioEmail(request, email)
-        ent = json.loads(request.POST)
+        ent = request.POST
         entidad = {
             "diagnostico": ent["diagnostico"],
             "tratamiento": ent["tratamiento"],
