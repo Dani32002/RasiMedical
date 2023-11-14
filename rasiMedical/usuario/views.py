@@ -240,6 +240,7 @@ def pacientesHC_view(request):
         return HttpResponse(template.render(context, request))
     return HttpResponse("Error")
     
+@csrf_exempt
 @login_required
 def nueva_historia(request, pk):
     role = getRole(request)
