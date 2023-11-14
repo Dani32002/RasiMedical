@@ -1,5 +1,5 @@
 import json
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import loader
 
@@ -224,6 +224,7 @@ def pacientes_historias(request, pk):
         
         template = loader.get_template('entradasClinicas.html')
         context = {
+            "paciente": paciente,
             "entradas": historias2
         }
         return HttpResponse(template.render(context, request))
@@ -258,7 +259,7 @@ def nueva_historia(request, pk):
         } 
         entrada = hl.create_entradaClinica(entidad)
         vh.anadirMedico(request, entrada.id, usuario.id) # type: ignore
-        return HttpResponse("ok")
+        return HttpResponseRedirect("/")
     return HttpResponse("Error")
 
 
