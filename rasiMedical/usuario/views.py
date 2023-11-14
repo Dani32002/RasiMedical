@@ -13,6 +13,7 @@ from agenda.models import Cita
 from historiasClinicas.logic import historiasClinicas_logic as hl
 # Create your views here.
 from django.contrib.auth.decorators import login_required
+from historiasClinicas import views as vh
 
 @csrf_exempt
 def medicos_view(request):
@@ -256,6 +257,7 @@ def nueva_historia(request, pk):
             "fecha": ent["fecha"]
         } 
         hl.create_entradaClinica(entidad)
+        vh.anadirMedico(request, pk, usuario.id) # type: ignore
         return HttpResponse("ok")
     return HttpResponse("Error")
 
