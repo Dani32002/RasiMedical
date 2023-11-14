@@ -256,8 +256,8 @@ def nueva_historia(request, pk):
             "autor": usuario.id, # type: ignore
             "fecha": ent["fecha"]
         } 
-        hl.create_entradaClinica(entidad)
-        vh.anadirMedico(request, pk, usuario.id) # type: ignore
+        entrada = hl.create_entradaClinica(entidad)
+        vh.anadirMedico(request, entrada.id, usuario.id) # type: ignore
         return HttpResponse("ok")
     return HttpResponse("Error")
 
