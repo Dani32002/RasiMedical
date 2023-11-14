@@ -206,6 +206,7 @@ def pacientes_historias(request, pk):
         email = getEmail(request)
         if role == "Medico":
             usuario = usuarioEmail(request, email)
+            print(usuario)
             for historia in historias:
                 if usuario in historia.permitidosMedico.all():
                     historias2.append(historia)
