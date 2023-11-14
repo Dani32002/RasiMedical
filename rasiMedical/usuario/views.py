@@ -248,9 +248,14 @@ def nueva_historia(request, pk):
         email = getEmail(request)
         usuario = usuarioEmail(request, email)
         ent = json.loads(request.POST)
-        ent["paciente"] = pk
-        ent["autor"] = usuario.id # type: ignore
-        hl.create_entradaClinica(ent)
+        entidad = {
+            "diagnostico": ent["diagnostico"],
+            "tratamiento": ent["tratamiento"],
+            "paciente": pk,
+            "autor": usuario.id, # type: ignore
+            "fecha": ent["fecha"]
+        } 
+        hl.create_entradaClinica(entidad)
         return HttpResponse("ok")
     return HttpResponse("Error")
 
