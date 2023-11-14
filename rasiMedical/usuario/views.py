@@ -1,13 +1,18 @@
 import json
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.template import loader
+
+from rasiMedical.auth0backend import getEmail, getRole
 from .logic import usuario_logic as pl
 from agenda.logic import agenda_logic as al2
 from administrativo.logic import administrativo_logic as al
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from agenda.models import Cita
+from historiasClinicas.logic import historiasClinicas_logic as hl
 # Create your views here.
+from django.contrib.auth.decorators import login_required
 
 @csrf_exempt
 def medicos_view(request):
@@ -115,3 +120,108 @@ def admin_view(request, pk):
     if request.method == 'DELETE':
         pl.delete_admin(pk)
         return HttpResponse("Borrado exitoso con id: " + str(pk))
+    
+
+@csrf_exempt
+def farmaceuticos_view(request):
+    if request.method == 'GET':
+        fars = pl.get_farmaceuticos()
+        farsDTO = serializers.serialize('json', fars)
+        return HttpResponse(farsDTO, content_type = 'application/json')
+    
+    if request.method == 'POST':
+        far_dto = pl.create_farmaceutico(json.loads(request.body))
+        fars = serializers.serialize('json', [far_dto,])
+        return HttpResponse(fars, 'application/json')    
+
+@csrf_exempt
+def farmaceutico_view(request, pk):
+    if request.method == 'GET':
+        far = pl.get_farmaceutico(pk)
+        farDTO = serializers.serialize('json', [far])
+        return HttpResponse(farDTO, content_type = 'application/json')
+    
+    if request.method == 'PUT':
+        far_dto = pl.update_farmaceutico(pk, json.loads(request.body))
+        far = serializers.serialize('json', [far_dto,])
+        return HttpResponse(far, 'application/json')
+    
+    if request.method == 'DELETE':
+        pl.delete_farmaceutico(pk)
+        return HttpResponse("Borrado exitoso con id: " + str(pk))
+    
+
+@csrf_exempt
+def enfermeras_view(request):
+    if request.method == 'GET':
+        enfs = pl.get_Enfermeras()
+        enfsDTO = serializers.serialize('json', enfs)
+        return HttpResponse(enfsDTO, content_type = 'application/json')
+    
+    if request.method == 'POST':
+        enf_dto = pl.create_Enfermera(json.loads(request.body))
+        enfs = serializers.serialize('json', [enf_dto,])
+        return HttpResponse(enfs, 'application/json')    
+
+@csrf_exempt
+def enfermera_view(request, pk):
+    if request.method == 'GET':
+        enf = pl.get_Enfermera(pk)
+        enfDTO = serializers.serialize('json', [enf])
+        return HttpResponse(enfDTO, content_type = 'application/json')
+    
+    if request.method == 'PUT':
+        enf_dto = pl.update_Enfermera(pk, json.loads(request.body))
+        enf = serializers.serialize('json', [enf_dto,])
+        return HttpResponse(enf, 'application/json')
+    
+    if request.method == 'DELETE':
+        pl.delete_enfermera(pk)
+        return HttpResponse("Borrado exitoso con id: " + str(pk))
+    
+@csrf_exempt
+def usuarioEmail(request, email):
+    return pl.get_medicoEmail(email)
+     
+    
+@login_required
+def pacientes_historias(request, pk):
+    role = getRole(request)
+    if request.method == 'GET' and (role == "Profesional" or role == "Medico"):
+        paciente = pl.get_paciente(pk)
+        historias = paciente.entradaclinica_set.all()  # type: ignore
+        template = loader.get_template('entradasClinicas.html')
+        context = {
+            "entradas": historias
+        }
+        return HttpResponse(template.render(context, request))
+    return HttpResponse("Error")
+
+@login_required
+def pacientesHC_view(request):
+    role = getRole(request)
+    if request.method == 'GET' and (role == "Profesional" or role == "Medico"):
+        pacientes = pl.get_pacientes()
+        template = loader.get_template('historiasClinicas.html')
+        context = {
+            "pacientes": pacientes
+        }
+        return HttpResponse(template.render(context, request))
+    return HttpResponse("Error")
+    
+@login_required
+def nueva_historia(request, pk):
+    role = getRole(request)
+    if request.method == 'POST' and role == "Medico":
+        email = getEmail(request)
+        usuario = usuarioEmail(request, email)
+        ent = request.POST
+        ent["paciente"] = pk
+        ent["autor"] = usuario.id # type: ignore
+        hl.create_entradaClinica(json.loads(ent))
+        return HttpResponse("ok")
+    return HttpResponse("Error")
+
+
+
+    

@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'administrativo',
     'agenda',
     'bootstrap5',
-    'social_django'
+    'social_django',
+    'historiasClinicas'
 ]
 
 MIDDLEWARE = [
@@ -159,6 +160,6 @@ SOCIAL_AUTH_AUTH0_SCOPE = [
 ]
 
 AUTHENTICATION_BACKENDS = {
-    'monitoring.auth0backend.Auth0',
+    'rasiMedical.auth0backend.Auth0',
     'django.contrib.auth.backends.ModelBackend',
 }

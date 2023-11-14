@@ -32,7 +32,7 @@ class Auth0(BaseOAuth2):
                 'user_id': userinfo['sub']} 
  
 
-def getRole(request): 
+def getEmail(request): 
 
     user = request.user 
     auth0user = user.social_auth.get(provider="auth0") 
@@ -45,6 +45,17 @@ def getRole(request):
     
     userinfo = resp.json() 
     print(userinfo)   
-    role = userinfo['rasi-medical.us.auth0.com/role'] 
+    email = userinfo['email'] 
     
+    return (email)
+
+def getRole(request):
+    user = request.user 
+    auth0user = user.social_auth.get(provider="auth0")
+    accessToken = auth0user.extra_data['access_token'] 
+    url = "https://rasi-medical.us.auth0.com/userinfo" 
+    headers = {'authorization': 'Bearer ' + accessToken}
+    resp = requests.get(url, headers=headers)
+    userinfo = resp.json()
+    role = userinfo['rasi-medical.us.auth0.com/role']
     return (role)

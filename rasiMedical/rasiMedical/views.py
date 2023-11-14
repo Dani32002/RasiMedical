@@ -65,3 +65,7 @@ def estadisticas(request):
     template = loader.get_template('estadisticas.html')
     context = uv.estadisticas(request)
     return HttpResponse(template.render(context, request))
+
+@csrf_exempt
+def healthCheck(request):
+    return HttpResponse('ok')

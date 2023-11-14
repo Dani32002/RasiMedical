@@ -1,4 +1,4 @@
-from ..models import Medico
+from ..models import Medico, Enfermera, Farmaceutico
 from ..models import Paciente
 from ..models import Administrador
 
@@ -95,3 +95,61 @@ def create_admin(admin):
 def delete_admin(admin_pk):
     admin = get_admin(admin_pk)
     admin.delete()
+
+def delete_enfermera(enf_pk):
+    enf = get_Enfermera(enf_pk)
+    enf.delete()
+
+def get_Enfermeras():
+    enfs = Enfermera.objects.all()
+    return enfs
+
+def get_Enfermera(enf_pk):
+    enf = Enfermera.objects.get(pk = enf_pk)
+    return enf
+
+def update_Enfermera(enf_pk, new_enf):
+    enf = get_Enfermera(enf_pk)
+    enf.nombre = new_enf["nombre"]
+    enf.correo = new_enf["correo"]
+    enf.clave = new_enf["clave"]
+    enf.identificacion = new_enf["identificacion"]
+    enf.area = new_enf["area"]
+    enf.save()
+    return enf
+
+def create_Enfermera(enf):
+    enf = Enfermera(nombre = enf["nombre"], correo = enf["correo"], clave = enf["clave"], identificacion = enf["identificacion"], area = enf["area"])
+    enf.save()
+    return enf
+
+def delete_farmaceutico(far_pk):
+    far = get_farmaceutico(far_pk)
+    far.delete()
+
+def get_farmaceuticos():
+    fars = Farmaceutico.objects.all()
+    return fars
+
+def get_farmaceutico(far_pk):
+    far = Farmaceutico.objects.get(pk = far_pk)
+    return far
+
+def get_medicoEmail(email):
+    med = Medico.objects.get(correo = email)
+    return med
+
+def update_farmaceutico(far_pk, new_far):
+    far = get_farmaceutico(far_pk)
+    far.nombre = new_far["nombre"]
+    far.correo = new_far["correo"]
+    far.clave = new_far["clave"]
+    far.identificacion = new_far["identificacion"]
+    far.area = new_far["area"]
+    far.save()
+    return far
+
+def create_farmaceutico(far):
+    far = Farmaceutico(nombre = far["nombre"], correo = far["correo"], clave = far["clave"], identificacion = far["identificacion"], area = far["area"])
+    far.save()
+    return far

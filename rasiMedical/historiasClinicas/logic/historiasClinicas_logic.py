@@ -1,3 +1,4 @@
+from datetime import datetime
 from ..models import EntradaClinica
 from usuario.logic import usuario_logic as ul
 
@@ -15,17 +16,21 @@ def update_entradaClinica(ent_pk, new_ent):
     entradaClinica.tratamiento = new_ent["tratamiento"]
     entradaClinica.paciente = ul.get_paciente(new_ent["paciente"])
     entradaClinica.autor = ul.get_medico(new_ent["autor"])
-    entradaClinica.fecha = new_ent["fecha"]
+    date_format = '%Y-%m-%d'
+    date_obj = datetime.strptime(new_ent["fecha"], date_format)
+    entradaClinica.fecha = date_obj
     entradaClinica.save()
     return entradaClinica
 
 def create_entradaClinica(ent):
+    date_format = '%Y-%m-%d'
+    date_obj = datetime.strptime(ent["fecha"], date_format)
     entradaClinica = EntradaClinica(
         diagnostico=ent["diagnostico"], 
         tratamiento=ent["tratamiento"],
         paciente=ul.get_paciente(ent["paciente"]),
         autor=ul.get_medico(ent["autor"]),
-        fecha=ent["fecha"]
+        fecha=date_obj
     )
     entradaClinica.save()
     return entradaClinica
