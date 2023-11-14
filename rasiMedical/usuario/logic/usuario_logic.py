@@ -139,6 +139,14 @@ def get_medicoEmail(email):
     med = Medico.objects.get(correo = email)
     return med
 
+def get_enfemeraEmail(email):
+    enf = Enfermera.objects.get(correo = email)
+    return enf
+
+def get_farmaceuticaEmail(email):
+    far = Farmaceutico.objects.get(correo = email)
+    return far
+
 def update_farmaceutico(far_pk, new_far):
     far = get_farmaceutico(far_pk)
     far.nombre = new_far["nombre"]

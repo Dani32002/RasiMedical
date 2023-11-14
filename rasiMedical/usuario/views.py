@@ -182,17 +182,43 @@ def enfermera_view(request, pk):
 @csrf_exempt
 def usuarioEmail(request, email):
     return pl.get_medicoEmail(email)
+
+@csrf_exempt
+def enfermeraEmail(request, email):
+    return pl.get_enfemeraEmail(email)
      
+@csrf_exempt
+def farmaceuticoEmail(request, email):
+    return pl.get_farmaceuticaEmail(email)
     
 @login_required
 def pacientes_historias(request, pk):
     role = getRole(request)
-    if request.method == 'GET' and (role == "Profesional" or role == "Medico"):
+    if request.method == 'GET' and (role == "Medico" or role == "Farmaceutico" or role == "Enfermera"):
+        usuario = None
         paciente = pl.get_paciente(pk)
         historias = paciente.entradaclinica_set.all()  # type: ignore
+        historias2 = []
+        email = getEmail(request)
+        if role == "Medico":
+            usuario = usuarioEmail(request, email)
+            for historia in historias:
+                if usuario in historia.permitidosMedico:
+                    historias2.append(historia)
+        elif role == "Farmaceutico":
+            usuario = farmaceuticoEmail(request, email)
+            for historia in historias:
+                if usuario in historia.permitidosFarmaceutico:
+                    historias2.append(historia)
+        else:
+            usuario = enfermeraEmail(request, email)
+            for historia in historias:
+                if usuario in historia.permitidosEnfermera:
+                    historias2.append(historia)
+        
         template = loader.get_template('entradasClinicas.html')
         context = {
-            "entradas": historias
+            "entradas": historias2
         }
         return HttpResponse(template.render(context, request))
     return HttpResponse("Error")
@@ -200,7 +226,7 @@ def pacientes_historias(request, pk):
 @login_required
 def pacientesHC_view(request):
     role = getRole(request)
-    if request.method == 'GET' and (role == "Profesional" or role == "Medico"):
+    if request.method == 'GET' and (role == "Medico" or role == "Farmaceutico" or role == "Enfermera"):
         pacientes = pl.get_pacientes()
         template = loader.get_template('historiasClinicas.html')
         context = {
