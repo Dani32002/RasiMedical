@@ -33,8 +33,11 @@ def create_entradaClinica(ent):
         autor=ul.get_medico(ent["autor"]),
         fecha=date_obj,
     )
-    entradaClinica.cita = al.get_cita(ent["cita"])  # type: ignore
+    cita = al.get_cita(ent["cita"])  
+    entradaClinica.cita = cita # type: ignore
     entradaClinica.save()
+    cita.entrada = entradaClinica # type: ignore
+    cita.save()
     return entradaClinica
 
 def delete_entradaClinica(ent_pk):
