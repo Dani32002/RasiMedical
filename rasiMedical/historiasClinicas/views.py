@@ -95,7 +95,7 @@ def nueva_historia(request, pk):
             "cita": ent["cita"]
         } 
         entrada = pl.create_entradaClinica(entidad)
-        vh.anadirMedico(request, entrada.id, usuario.id) # type: ignore
+        anadirMedico(request, entrada.id, usuario.id) # type: ignore
         return HttpResponseRedirect("/")
     return HttpResponse("Error")
 
