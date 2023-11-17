@@ -32,8 +32,8 @@ def create_entradaClinica(ent):
         paciente=ul.get_paciente(ent["paciente"]),
         autor=ul.get_medico(ent["autor"]),
         fecha=date_obj,
-        cita = al.get_cita(ent["cita"])
     )
+    entradaClinica.cita = al.get_cita(ent["cita"])  # type: ignore
     entradaClinica.save()
     return entradaClinica
 
