@@ -19,7 +19,7 @@
         </thead>
         <tbody>
             {% for paciente in pacientes %}
-                <tr onClick= "window.location.href= window.location.origin + 'historiasClinicas/view/{{paciente.id}}'">
+                <tr onClick= "window.location.href= window.location.origin + '/historiasClinicas/view/{{paciente.id}}'">
                     <td>{{paciente.nombre}}</td>
                     <td>{{paciente.identificacion}}</td>
                     <td>{{paciente.numeroDeSeguro}}</td>
