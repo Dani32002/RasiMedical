@@ -104,7 +104,7 @@ def nueva_historia(request, pk):
 @login_required
 def crear(request, pk):
     role = getRole(request)
-    if request.method == 'POST' and role == "Medico":
+    if request.method == 'GET' and role == "Medico":
         email = getEmail(request)
         usuario = usuarioEmail(request, email)
         citas = al.get_citasPacienteMedico(pk, usuario.id) # type: ignore
