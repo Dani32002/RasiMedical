@@ -10,5 +10,5 @@ urlpatterns = [
     path('<int:pk>/farmaceutico/<int:pkEntidad>', views.anadirFarmaceutico, name='anadirFarmaceutico'), # type: ignore
     path('view/<int:pk>', views.pacientes_historias, name = "pacientes_historias"),  # type: ignore
     path('view/<int:pk>/crear/nueva-historia/', views.nueva_historia , name = "nueva-historia"), # type: ignore
-    path('view/<int:pk>/crear/', views.crear, name = "crear")
+    path('view/<int:pk>/crear/', views.crear, name = "crear") # type: ignore
 ]

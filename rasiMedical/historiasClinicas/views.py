@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from .logic import historiasClinicas_logic as pl
 from usuario.logic import usuario_logic as ul
+from agenda.logic import agenda_logic as al
 from rasiMedical.auth0backend import getEmail, getRole
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
@@ -90,7 +91,8 @@ def nueva_historia(request, pk):
             "tratamiento": ent["tratamiento"],
             "paciente": pk,
             "autor": usuario.id, # type: ignore
-            "fecha": ent["fecha"]
+            "fecha": ent["fecha"],
+            "cita": ent["cita"]
         } 
         entrada = pl.create_entradaClinica(entidad)
         vh.anadirMedico(request, entrada.id, usuario.id) # type: ignore
@@ -99,8 +101,19 @@ def nueva_historia(request, pk):
 
 
 @csrf_exempt
+@login_required
 def crear(request, pk):
-    return render(request, 'nuevaHistoria.html')
+    role = getRole(request)
+    if request.method == 'POST' and role == "Medico":
+        email = getEmail(request)
+        usuario = usuarioEmail(request, email)
+        citas = al.get_citasPacienteMedico(pk, usuario.id) # type: ignore
+        template = loader.get_template('nuevaHistoria.html')
+        context = {
+            "citas": citas
+        }
+        return HttpResponse(template.render(context, request)) 
+    return HttpResponse("Error")
 
 @login_required
 def pacientes_historias(request, pk):

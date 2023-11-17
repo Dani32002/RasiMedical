@@ -12,6 +12,7 @@
                 <th>Diagnostico</th>
                 <th>Tratamiento</th>
                 <th>Fecha</th>
+                <th>Cita</th>
                 <th>Enviar</th>
             </tr>
         </thead>
@@ -21,6 +22,7 @@
                     <td><input type="text" name="diagnostico" id="diagnostico" value = ""></td>
                     <td><input type="text" name="tratamiento" id="tratamiento" value = ""></td>
                     <td><input type="text" name="fecha" id="fecha" value = ""></td>
+                    <td><input type="text" name="cita" id="cita" value = ""></td>
                     <td><input type="submit" value = "Guardar" onClick= "window.location.href='/'"></td>
                 </tr>
             </form>
@@ -28,12 +30,22 @@
     </table>
     <table class = "table">
         <thead>
-            <td>Fecha</td>
-            <td>Completada</td>
-            <td>Medico</td>
+            <tr>
+                <td>Id</td>
+                <td>Fecha</td>
+                <td>Completada</td>
+                <td>Medico</td>
+            </tr>
         </thead>
         <tbody>
-
+            {% for cita in citas %}
+                <tr>
+                    <td>{{cita.id}}</td>
+                    <td>{{cita.fecha}}</td>
+                    <td>{{cita.completada}}</td>
+                    <td>{{cita.medicoCita.nombre}}</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 </body>

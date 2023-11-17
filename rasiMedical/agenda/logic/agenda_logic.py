@@ -40,3 +40,6 @@ def get_citas():
 def get_cita(epk):
     elemento = Cita.objects.get(pk = epk)
     return elemento
+
+def get_citasPacienteMedico(pkPac, pkMed):
+    return Cita.objects.all().filter(paciente = ul.get_paciente(pkPac)).filter(medicoCita = ul.get_medico(pkMed))
