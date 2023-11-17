@@ -192,43 +192,6 @@ def enfermeraEmail(request, email):
 def farmaceuticoEmail(request, email):
     return pl.get_farmaceuticaEmail(email)
 
-@csrf_exempt
-def crear(request, pk):
-    return render(request, 'nuevaHistoria.html')
-    
-@login_required
-def pacientes_historias(request, pk):
-    role = getRole(request)
-    if request.method == 'GET' and (role == "Medico" or role == "Farmaceutico" or role == "Enfermera"):
-        usuario = None
-        paciente = pl.get_paciente(pk)
-        historias = paciente.entradaclinica_set.all()  # type: ignore
-        historias2 = []
-        email = getEmail(request)
-        if role == "Medico":
-            usuario = usuarioEmail(request, email)
-            print(usuario)
-            for historia in historias:
-                if usuario in historia.permitidosMedico.all():
-                    historias2.append(historia)
-        elif role == "Farmaceutico":
-            usuario = farmaceuticoEmail(request, email)
-            for historia in historias:
-                if usuario in historia.permitidosFarmaceutico.all():
-                    historias2.append(historia)
-        else:
-            usuario = enfermeraEmail(request, email)
-            for historia in historias:
-                if usuario in historia.permitidosEnfermera.all():
-                    historias2.append(historia)
-        
-        template = loader.get_template('entradasClinicas.html')
-        context = {
-            "paciente": paciente,
-            "entradas": historias2
-        }
-        return HttpResponse(template.render(context, request))
-    return HttpResponse("Error")
 
 @login_required
 def pacientesHC_view(request):
@@ -241,27 +204,3 @@ def pacientesHC_view(request):
         }
         return HttpResponse(template.render(context, request))
     return HttpResponse("Error")
-    
-@csrf_exempt
-@login_required
-def nueva_historia(request, pk):
-    role = getRole(request)
-    if request.method == 'POST' and role == "Medico":
-        email = getEmail(request)
-        usuario = usuarioEmail(request, email)
-        ent = request.POST
-        entidad = {
-            "diagnostico": ent["diagnostico"],
-            "tratamiento": ent["tratamiento"],
-            "paciente": pk,
-            "autor": usuario.id, # type: ignore
-            "fecha": ent["fecha"]
-        } 
-        entrada = hl.create_entradaClinica(entidad)
-        vh.anadirMedico(request, entrada.id, usuario.id) # type: ignore
-        return HttpResponseRedirect("/")
-    return HttpResponse("Error")
-
-
-
-    

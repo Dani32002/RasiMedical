@@ -8,4 +8,5 @@ class Cita(models.Model):
     medicoCita = models.ForeignKey('usuario.Medico',  on_delete=models.CASCADE)
     paciente = models.ForeignKey('usuario.Paciente',  on_delete=models.CASCADE)
     factura = models.ForeignKey('administrativo.Factura', null= True,  on_delete=models.CASCADE)
+    entrada = models.OneToOneField('historiasClinicas.EntradaClinica', null= True, on_delete=models.SET_NULL)
 
