@@ -1,10 +1,12 @@
-package tortninjas.rasimedical.ms.model;
+package tortninjas.rasimedical.ms.recursos;
 
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-public interface AsignacionRepository extends MongoRepository<Asignacion, Long> {
+@Repository
+public interface AsignacionRepository extends MongoRepository<Asignacion, String> {
 
     public List<Asignacion> findByMedico(Long medico);
 

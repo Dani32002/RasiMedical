@@ -1,16 +1,16 @@
-package tortninjas.rasimedical.ms.controller;
+package tortninjas.rasimedical.ms.recursos;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,29 +19,41 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import tortninjas.rasimedical.ms.model.Asignacion;
-import tortninjas.rasimedical.ms.model.AsignacionRepository;
-
 @RestController
+@RequestMapping("asignacion")
 public class AsignacionController {
 
-    private AsignacionRepository asignacionRepository;
+    private static String URL_USUARIOS;
+
+    private static String URL_INVENTARIO;
+
+    private static String URL_MEDICO = URL_USUARIOS + "/usuario/";
+
+    private static String URL_DISPOSITIVO = URL_INVENTARIO + "/inventario/dispositivo/";
+
+    private static String URL_MEDICAMENTO = URL_INVENTARIO + "/inventario/medicamento/";
+
+    private static String URL_INSUMO = URL_INVENTARIO + "/inventario/insumo/";
 
     @Autowired
-    public AsignacionController(AsignacionRepository asignacionRepository) {
-        this.asignacionRepository = asignacionRepository;
-    }
+    private AsignacionRepository asignacionRepository;
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Asignacion addAsignacion(@RequestBody Asignacion asignacion){
+    public Asignacion addAsignacion(@RequestBody Asignacion asignacion) throws IOException, URISyntaxException{
+        //if (checkElemento(asignacion) && checkMedico(asignacion)) {    
+        //    return asignacionRepository.save(asignacion);
+        //}
+        //return null;
         return asignacionRepository.save(asignacion);
+        
     }
 
-    @GetMapping()
+    @GetMapping(value = "/")
     @ResponseStatus(code = HttpStatus.OK)
     public List<Asignacion> getAll() {
         return asignacionRepository.findAll();
@@ -73,7 +85,7 @@ public class AsignacionController {
     
     @GetMapping(value = "/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    public Asignacion findOne(@PathVariable("id") Long id) throws Exception {
+    public Asignacion findOne(@PathVariable("id") String id) throws Exception {
         Optional<Asignacion> asignacion = asignacionRepository.findById(id);
         if (asignacion.isEmpty())
             throw new Exception("Entity doesn't exist");
@@ -82,7 +94,7 @@ public class AsignacionController {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) throws Exception {
+    public void delete(@PathVariable String id) throws Exception {
         Optional<Asignacion> asignacion = asignacionRepository.findById(id);
         if (asignacion.isEmpty())
             throw new Exception("Entity doesn't exist");
@@ -91,7 +103,7 @@ public class AsignacionController {
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    public Asignacion update(@PathVariable Long id, @RequestBody Asignacion asignacion) throws Exception {
+    public Asignacion update(@PathVariable String id, @RequestBody Asignacion asignacion) throws Exception {
         Optional<Asignacion> asignacionOG = asignacionRepository.findById(id);
         if (asignacionOG.isEmpty())
             throw new Exception("Entity doesn't exist");
@@ -100,19 +112,39 @@ public class AsignacionController {
     }
 
 
-    public Boolean CheckElemento(Asignacion asignacion) throws IOException {
-        JSONObject json = peticion("Elemento");
-        JSONArray arr = json.getJSONArray("");
-        for (int i = 0; i < arr.length(); i++) {
-            if (Long.parseLong(arr.getJSONObject(i).getString("id")) == asignacion.getElemento()) {
+    public Boolean checkElemento(Asignacion asignacion) throws IOException, URISyntaxException {
+        JSONArray json = peticion(asignacion.getTipo());
+        for (int i = 0; i < json.length(); i++) {
+            if ((json.getJSONObject(i).getInt("pk")) == asignacion.getElemento()) {
                 return true;
             }
         }
         return false;
     }
 
-    public JSONObject peticion(String forma) throws IOException {
-        URL url = new URL("http://example.com");
+    public Boolean checkMedico(Asignacion asignacion) throws IOException, URISyntaxException {
+        JSONArray json = peticion("Medico");
+        for (int i = 0; i < json.length(); i++) {
+            if ((json.getJSONObject(i).getInt("pk")) == asignacion.getMedico()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public JSONArray peticion(String forma) throws IOException, URISyntaxException {
+        String direccion = "";
+        if (forma.equals("Medico")){
+            direccion = URL_MEDICO;
+        } else if (forma.equals("Dispositivo")) {
+            direccion = URL_DISPOSITIVO;
+        } else if (forma.equals("Insumo")) {
+            direccion = URL_INSUMO;
+        } else {
+            direccion = URL_MEDICAMENTO;
+        }
+        URI uri = new URI(direccion);
+        URL url = uri.toURL();
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("Content-Type", "application/json");
@@ -125,7 +157,7 @@ public class AsignacionController {
         in.close();
         con.disconnect();
         String respuesta = content.toString();
-        JSONObject json = new JSONObject(respuesta); 
+        JSONArray json = new JSONArray(respuesta); 
         return json;
     }
 }

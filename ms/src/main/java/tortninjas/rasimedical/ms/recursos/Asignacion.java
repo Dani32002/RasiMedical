@@ -1,10 +1,11 @@
-package tortninjas.rasimedical.ms.model;
+package tortninjas.rasimedical.ms.recursos;
 
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,10 +13,11 @@ import lombok.Setter;
 @Setter
 @Getter
 @Document(collection = "Asignacion")
+@Data
 public class Asignacion {
 
     @Id
-    public Long id;
+    public String id;
 
     public String tipo;
     
