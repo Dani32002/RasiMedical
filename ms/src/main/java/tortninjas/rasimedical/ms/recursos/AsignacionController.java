@@ -27,11 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("asignacion")
 public class AsignacionController {
 
-    private static String URL_USUARIOS;
+    private static String URL_USUARIOS = "http://127.0.0.1:8001";
 
-    private static String URL_INVENTARIO;
+    private static String URL_INVENTARIO = "http://127.0.0.1:8000";
 
-    private static String URL_MEDICO = URL_USUARIOS + "/usuario/";
+    private static String URL_MEDICO = URL_USUARIOS + "/usuario/medico/";
 
     private static String URL_DISPOSITIVO = URL_INVENTARIO + "/inventario/dispositivo/";
 
@@ -45,11 +45,11 @@ public class AsignacionController {
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public Asignacion addAsignacion(@RequestBody Asignacion asignacion) throws IOException, URISyntaxException{
-        //if (checkElemento(asignacion) && checkMedico(asignacion)) {    
-        //    return asignacionRepository.save(asignacion);
-        //}
-        //return null;
-        return asignacionRepository.save(asignacion);
+        if (checkElemento(asignacion) && checkMedico(asignacion)) {    
+            return asignacionRepository.save(asignacion);
+        }
+        return null;
+        //return asignacionRepository.save(asignacion);
         
     }
 
