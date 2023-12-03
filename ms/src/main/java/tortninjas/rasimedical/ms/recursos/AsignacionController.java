@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("asignacion")
 public class AsignacionController {
 
-    private static String URL_USUARIOS = "http://127.0.0.1:8001";
+    private static String URL_USUARIOS = "http://35.193.203.172:8080";
 
-    private static String URL_INVENTARIO = "http://127.0.0.1:8000";
+    private static String URL_INVENTARIO = "http://34.125.170.95:8080";
 
     private static String URL_MEDICO = URL_USUARIOS + "/usuario/medico/";
 
