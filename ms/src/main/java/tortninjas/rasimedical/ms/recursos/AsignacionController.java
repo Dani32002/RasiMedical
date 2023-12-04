@@ -46,6 +46,7 @@ public class AsignacionController {
     @ResponseStatus(code = HttpStatus.CREATED)
     public Asignacion addAsignacion(@RequestBody Asignacion asignacion) throws IOException, URISyntaxException{
         if (checkElemento(asignacion) && checkMedico(asignacion)) {    
+            System.out.println("LETSGO");
             return asignacionRepository.save(asignacion);
         }
         return null;
