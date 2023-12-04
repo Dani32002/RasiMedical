@@ -8,6 +8,7 @@ from django.template import loader
 from usuario.logic import usuario_logic
 from usuario import views as uv
 from inventario import views
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     return render(request, 'home.html')
@@ -16,6 +17,7 @@ def asignar(request):
     return render(request, 'asignar.html')
 
 @csrf_exempt
+@login_required
 def mostrarTipo(request):
     rMeds = requests.get("http://10.128.0.6:8080/usuario/medico/", headers={"Accept":"application/json"})
     medicos = rMeds.json()
@@ -50,6 +52,7 @@ def mostrarTipo(request):
             return HttpResponse(template.render(context, request))
 
 @csrf_exempt
+@login_required
 def asociarInsumo(request):
     obj = {
         "tipo": "Insumo",
@@ -62,6 +65,7 @@ def asociarInsumo(request):
     return render(request, 'asignar.html')
 
 @csrf_exempt
+@login_required
 def asociarMedicamento(request):
     obj = {
         "tipo": "Medicamento",
@@ -74,6 +78,7 @@ def asociarMedicamento(request):
     return render(request, 'asignar.html')
 
 @csrf_exempt
+@login_required
 def asociarDispositivo(request):
     obj = {
         "tipo": "Dispositivo",

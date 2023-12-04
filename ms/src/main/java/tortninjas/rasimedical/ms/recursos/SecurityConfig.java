@@ -21,9 +21,7 @@ public class SecurityConfig {
         */
         return http
                 .authorizeHttpRequests((authorize) -> authorize
-                    .requestMatchers("/asignacion/public").permitAll()
-                    .requestMatchers("/asignacion/private").authenticated()
-                    .requestMatchers("/asignacion/private-scoped").hasAuthority("SCOPE_read:messages")
+                    .requestMatchers("/asignacion").hasAuthority("SCOPE_post:asignaciones")
                 )
                 .cors(withDefaults())
                 .oauth2ResourceServer(oauth2 -> oauth2
