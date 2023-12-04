@@ -23,6 +23,7 @@ def mostrarTipo(request):
         if request.POST["elemento"] == "Dispositivo":
             r = requests.get("http://10.182.0.6:8080/inventario/dispositivo/", headers={"Accept":"application/json"})
             disps = r.json()
+            print(disps)
             template = loader.get_template('mostrarDispositivos.html')
             context = {
                 "dispositivos": disps,
