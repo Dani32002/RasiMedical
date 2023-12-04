@@ -9,6 +9,7 @@ from usuario.logic import usuario_logic
 from usuario import views as uv
 from inventario import views
 from django.contrib.auth.decorators import login_required
+from rasiMedical.auth0backend import getToken
 
 def home(request):
     return render(request, 'home.html')
@@ -62,8 +63,9 @@ def asociarInsumo(request):
         "elemento": request.POST["insumo"],
         "medico": request.POST["medico"]
     }
-    requests.post("http://10.128.0.10:8000/asignacion", json = obj)
-    return render(request, 'asignar.html')
+    accessToken = getToken(request)
+    headers = {'authorization': 'Bearer ' + accessToken}
+    return requests.post("http://10.128.0.10:8000/asignacion", json = obj, headers=headers)
 
 @csrf_exempt
 @login_required
@@ -75,8 +77,9 @@ def asociarMedicamento(request):
         "elemento": request.POST["medicamento"],
         "medico": request.POST["medico"]
     }
-    requests.post("http://10.128.0.10:8000/asignacion", json = obj)
-    return render(request, 'asignar.html')
+    accessToken = getToken(request)
+    headers = {'authorization': 'Bearer ' + accessToken}
+    return requests.post("http://10.128.0.10:8000/asignacion", json = obj, headers=headers)
 
 @csrf_exempt
 @login_required
@@ -88,8 +91,9 @@ def asociarDispositivo(request):
         "elemento": request.POST["dispositivo"],
         "medico": request.POST["medico"]
     }
-    requests.post("http://10.128.0.10:8000/asignacion", json = obj)
-    return render(request, 'asignar.html')
+    accessToken = getToken(request)
+    headers = {'authorization': 'Bearer ' + accessToken}
+    return requests.post("http://10.128.0.10:8000/asignacion", json = obj, headers=headers)
 
 
 @csrf_exempt

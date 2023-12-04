@@ -59,3 +59,9 @@ def getRole(request):
     userinfo = resp.json()
     role = userinfo['rasi-medical.us.auth0.com/role']
     return (role)
+
+def getToken(request):
+    user = request.user 
+    auth0user = user.social_auth.get(provider="auth0")
+    accessToken = auth0user.extra_data['access_token'] 
+    return accessToken
