@@ -1,5 +1,7 @@
+from datetime import date
 from django.http import HttpResponse
 from django.shortcuts import render
+import requests
 from inventario.logic import inventario_logic
 from django.views.decorators.csrf import csrf_exempt
 from django.template import loader
@@ -15,10 +17,12 @@ def asignar(request):
 
 @csrf_exempt
 def mostrarTipo(request):
+    rMeds = requests.get("http://10.128.0.6:8080/usuario/medico/", headers={"Accept":"application/json"})
+    medicos = rMeds.json()
     if request.method == 'POST':
         if request.POST["elemento"] == "Dispositivo":
-            disps = inventario_logic.get_dipositivos()
-            medicos = usuario_logic.get_medicos()
+            r = requests.get("http://10.182.0.6:8080/inventario/dispositivo/", headers={"Accept":"application/json"})
+            disps = r.json()
             template = loader.get_template('mostrarDispositivos.html')
             context = {
                 "dispositivos": disps,
@@ -26,8 +30,8 @@ def mostrarTipo(request):
             }
             return HttpResponse(template.render(context, request))
         elif request.POST["elemento"] == "Insumo":
-            insus = inventario_logic.get_insumos()
-            medicos = usuario_logic.get_medicos()
+            r = requests.get("http://10.182.0.6:8080/inventario/insumo/", headers={"Accept":"application/json"})
+            insus = r.json()
             template = loader.get_template('mostrarInsumos.html')
             context = {
                 "insumos": insus,
@@ -35,8 +39,8 @@ def mostrarTipo(request):
             }
             return HttpResponse(template.render(context, request))
         else:
-            meds = inventario_logic.get_medicamentos()
-            medicos = usuario_logic.get_medicos()
+            r = requests.get("http://10.182.0.6:8080/inventario/medicamento/", headers={"Accept":"application/json"})
+            meds = r.json()
             template = loader.get_template('mostrarMedicamentos.html')
             context = {
                 "medicamentos": meds,
@@ -46,17 +50,38 @@ def mostrarTipo(request):
 
 @csrf_exempt
 def asociarInsumo(request):
-    views.anadirMedicoInsumo(request, request.POST["insumo"], request.POST["medico"])
+    obj = {
+        "tipo": "Insumo",
+        "fecha": str(date.today()),
+        "activo": True,
+        "elemento": request.POST["insumo"],
+        "medico": request.POST["medico"]
+    }
+    requests.post("http://10.128.0.10:8000/asignacion", json = obj)
     return render(request, 'asignar.html')
 
 @csrf_exempt
 def asociarMedicamento(request):
-    views.anadirMedicoMedicamento(request, request.POST["medicamento"], request.POST["medico"])
+    obj = {
+        "tipo": "Medicamento",
+        "fecha": str(date.today()),
+        "activo": True,
+        "elemento": request.POST["medicamento"],
+        "medico": request.POST["medico"]
+    }
+    requests.post("http://10.128.0.10:8000/asignacion", json = obj)
     return render(request, 'asignar.html')
 
 @csrf_exempt
 def asociarDispositivo(request):
-    views.anadirMedicoDispositivo(request, request.POST["dispositivo"], request.POST["medico"])
+    obj = {
+        "tipo": "Dispositivo",
+        "fecha": str(date.today()),
+        "activo": True,
+        "elemento": request.POST["dispositivo"],
+        "medico": request.POST["medico"]
+    }
+    requests.post("http://10.128.0.10:8000/asignacion", json = obj)
     return render(request, 'asignar.html')
 
 
