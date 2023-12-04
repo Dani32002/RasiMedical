@@ -24,14 +24,14 @@
         </thead>
         {% for medicamento in medicamentos %}
             <tr>
-                <td>{{medicamento.id}}</td>
-                <td>{{medicamento.nombre}}</td>
-                <td>{{medicamento.estado}}</td>
-                <td>{{medicamento.descripcion}}</td>
-                <td>{{medicamento.medico}}</td>
-                <td>{{medicamento.fabricante}}</td>
-                <td>{{medicamento.concentracion}}</td>
-                <td>{{medicamento.administracion}}</td>
+                <td>{{medicamento.pk}}</td>
+                <td>{{medicamento.fields.nombre}}</td>
+                <td>{{medicamento.fields.estado}}</td>
+                <td>{{medicamento.fields.descripcion}}</td>
+                <td>{{medicamento.fields.medico}}</td>
+                <td>{{medicamento.fields.fabricante}}</td>
+                <td>{{medicamento.fields.concentracion}}</td>
+                <td>{{medicamento.fields.administracion}}</td>
             </tr>
         {% endfor %}
     </table>
@@ -49,12 +49,12 @@
         </thead>
         {% for medico in medicos %}
             <tr>
-                <td>{{medico.id}}</td>
-                <td>{{medico.nombre}}</td>
-                <td>{{medico.correo}}</td>
-                <td>{{medico.identificacion}}</td>
-                <td>{{medico.especialidad}}</td>
-                <td>{{medico.licencia}}</td>
+                <td>{{medico.pk}}</td>
+                <td>{{medico.fields.nombre}}</td>
+                <td>{{medico.fields.correo}}</td>
+                <td>{{medico.fields.identificacion}}</td>
+                <td>{{medico.fields.especialidad}}</td>
+                <td>{{medico.fields.licencia}}</td>
             </tr>
         {% endfor %}
     </table>

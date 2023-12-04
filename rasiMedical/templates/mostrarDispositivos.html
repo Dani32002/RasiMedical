@@ -22,7 +22,7 @@
         </thead>
         {% for dispositivo in dispositivos %}
             <tr>
-                <td>{{dispositivo.fields.id}}</td>
+                <td>{{dispositivo.pk}}</td>
                 <td>{{dispositivo.fields.nombre}}</td>
                 <td>{{dispositivo.fields.estado}}</td>
                 <td>{{dispositivo.fields.descripcion}}</td>
@@ -45,7 +45,7 @@
         </thead>
         {% for medico in medicos %}
             <tr>
-                <td>{{medico.fields.id}}</td>
+                <td>{{medico.pk}}</td>
                 <td>{{medico.fields.nombre}}</td>
                 <td>{{medico.fields.correo}}</td>
                 <td>{{medico.fields.identificacion}}</td>

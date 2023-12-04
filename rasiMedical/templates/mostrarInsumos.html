@@ -23,13 +23,13 @@
         </thead>
         {% for insumo in insumos %}
             <tr>
-                <td>{{insumo.id}}</td>
-                <td>{{insumo.nombre}}</td>
-                <td>{{insumo.estado}}</td>
-                <td>{{insumo.descripcion}}</td>
-                <td>{{insumo.medico}}</td>
-                <td>{{insumo.proposito}}</td>
-                <td>{{insumo.unidad}}</td>
+                <td>{{insumo.pk}}</td>
+                <td>{{insumo.fields.nombre}}</td>
+                <td>{{insumo.fields.estado}}</td>
+                <td>{{insumo.fields.descripcion}}</td>
+                <td>{{insumo.fields.medico}}</td>
+                <td>{{insumo.fields.proposito}}</td>
+                <td>{{insumo.fields.unidad}}</td>
             </tr>
         {% endfor %}
     </table>
@@ -47,12 +47,12 @@
         </thead>
         {% for medico in medicos %}
             <tr>
-                <td>{{medico.id}}</td>
-                <td>{{medico.nombre}}</td>
-                <td>{{medico.correo}}</td>
-                <td>{{medico.identificacion}}</td>
-                <td>{{medico.especialidad}}</td>
-                <td>{{medico.licencia}}</td>
+                <td>{{medico.pk}}</td>
+                <td>{{medico.fields.nombre}}</td>
+                <td>{{medico.fields.correo}}</td>
+                <td>{{medico.fields.identificacion}}</td>
+                <td>{{medico.fields.especialidad}}</td>
+                <td>{{medico.fields.licencia}}</td>
             </tr>
         {% endfor %}
     </table>
