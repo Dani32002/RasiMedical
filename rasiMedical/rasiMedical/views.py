@@ -66,7 +66,7 @@ def asociarInsumo(request):
     accessToken = getToken(request)
     print(accessToken)
     headers = {'authorization': 'Bearer ' + accessToken}
-    requests.post("http://10.128.0.10:8000/asignacion", json = obj, headers=headers)
+    requests.post("http://10.182.0.7:8000/asignacion", json = obj, headers=headers)
     return render(request, 'asignar.html')
 
 @csrf_exempt
@@ -82,7 +82,7 @@ def asociarMedicamento(request):
     accessToken = getToken(request)
     print(accessToken)
     headers = {'authorization': 'Bearer ' + accessToken}
-    requests.post("http://10.128.0.10:8000/asignacion", json = obj, headers=headers)
+    requests.post("http://10.182.0.7:8000/asignacion", json = obj, headers=headers)
     return render(request, 'asignar.html')
 
 @csrf_exempt
@@ -98,7 +98,7 @@ def asociarDispositivo(request):
     accessToken = getToken(request)
     print(accessToken)
     headers = {'authorization': 'Bearer ' + accessToken}
-    requests.post("http://10.128.0.10:8000/asignacion", json = obj, headers=headers)
+    requests.post("http://10.182.0.7:8000/asignacion", json = obj, headers=headers)
     return render(request, 'asignar.html')
 
 
