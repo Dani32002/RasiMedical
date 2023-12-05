@@ -24,6 +24,7 @@ urlpatterns = [
     path('usuario/', include('usuario.urls')),
     path('inventario/', include('inventario.urls')),
     path('asignar/', views.asignar),
+    path('ver-asignar/', views.verAsignar),
     path('tipo/', views.mostrarTipo), # type: ignore
     path('asociar-insumo/', views.asociarInsumo),
     path('asociar-medicamento/', views.asociarMedicamento),

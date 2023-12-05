@@ -111,3 +111,7 @@ def estadisticas(request):
 @csrf_exempt
 def healthCheck(request):
     return HttpResponse('ok')
+
+
+def verAsignar(request):
+    return requests.get("http://10.182.0.7:8000/asignacion/", headers={"Accept":"application/json"})
