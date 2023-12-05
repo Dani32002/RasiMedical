@@ -114,4 +114,4 @@ def healthCheck(request):
 
 
 def verAsignar(request):
-    return requests.get("http://10.182.0.7:8000/asignacion/", headers={"Accept":"application/json"})
+    return HttpResponse(requests.get("http://10.182.0.7:8000/asignacion/", headers={"Accept":"application/json"}))
